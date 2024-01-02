@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "django-chatgpt-practice"
+version = "0.1.0"
+description = "Django Channels 및 OpenAI API를 활용한 영어 상황극 채팅 서비스 구현 연습"
+authors = ["simseulnyang <happysseul627@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "4.2.1"
+python-dotenv = "1.0.0"
+django-environ = "0.10.0"
+openai = "0.27.7"
+django-bootstrap5 = "23.1"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+channels = {extras = ["daphne"], version = "4.0.0"}
+gTTS = "2.3.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
