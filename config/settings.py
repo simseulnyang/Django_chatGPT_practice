@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bootstrap5',
     'chat',
 ]
 
@@ -116,3 +117,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = env.str("OPENAI_API_KEY")
+
+BOOTSTRAP5 = {
+    "required_css_class": "fw-bold",
+    "set_placeholder": False,
+}
