@@ -23,3 +23,11 @@
  - 2023년 6월 기준 "gpt-3.5-turbo" model 사용
  - messages 인자로 대화내역 리스트를 지정하며, 각 message에는 "role", "content" 라는 2가지의 key를 사용한다.
  - "role"은 "system", "user", "assistant"만을 지정할 수 있고, "content"에는 대화 내용 문자열을 담는다.
+
+ <br>
+
+ ## Channels
+ - 장고 코어 프로젝트 : https://github.com/django/channels
+ - ASGI 기반의 라이브러리, HTTP/웹소켓 프로토콜을 Django 친화적으로 지원
+ - 2022년 10월에 v4.0.0 release
+ - 필요한 라이브러리 : channels[daphne]~=4.0.0
