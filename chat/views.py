@@ -1,8 +1,7 @@
-from typing import Any
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models.query import QuerySet
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from django.utils.decorators import method_decorator
 from .models import RolePlayingRoom
 from .forms import RolePlayingRoomForm
@@ -46,3 +45,33 @@ class RolePlayingRoomListView(ListView):
         return qs
 
 role_playing_room_list = RolePlayingRoomListView.as_view()
+
+
+@method_decorator(staff_member_required, name="dispatch")
+class RolePlayingRoomDetailView(DetailView):
+    model = RolePlayingRoom
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+    
+role_playing_room_detail = RolePlayingRoomDetailView.as_view()
+
+
+@method_decorator(staff_member_required, name="dispatch")
+class RolePlayingRoomDeleteView(DeleteView):
+    model = RolePlayingRoom
+    success_url = reverse_lazy("role_playing_room_list")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+    
+    def form_vaild(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "채팅방을 삭제했습니다.")
+        return response
+    
+role_playing_room_delete = RolePlayingRoomDeleteView.as_view()
