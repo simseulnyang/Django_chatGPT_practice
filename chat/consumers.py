@@ -32,16 +32,20 @@ class RolePlayingConsumer(JsonWebsocketConsumer):
     def receive_json(self, content_dict, **kwargs):
         if content_dict["type"] == "user-message":
             assistant_message = self.get_query(user_query=content_dict["message"])
-            self.send_json({
-                "type": "assistant-message",
-                "message": assistant_message,
-            })
+            self.send_json(
+                {
+                    "type": "assistant-message",
+                    "message": assistant_message,
+                }
+            )
         elif content_dict["type"] == "request-recommend-message":
             recommended_message = self.get_query(command_query=self.recommend_message)
-            self.send_json({
-                "type": "recommended-message",
-                "message": "recommended_message",
-            })
+            self.send_json(
+                {
+                    "type": "recommended-message",
+                    "message": recommended_message,
+                }
+            )
         else:
             self.send_json({
                 "type": "error",
