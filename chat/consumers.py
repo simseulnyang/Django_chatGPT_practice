@@ -37,7 +37,7 @@ class RolePlayingConsumer(JsonWebsocketConsumer):
                 "message": assistant_message,
             })
         elif content_dict["type"] == "request-recommend-message":
-            recommended_message = self.gpt_query(command_query=self.recommend_message)
+            recommended_message = self.get_query(command_query=self.recommend_message)
             self.send_json({
                 "type": "recommended-message",
                 "message": "recommended_message",
