@@ -53,6 +53,7 @@
                             자동 읽기 시작
                         </button>
                     </div>
+                    <select id="voice-list" class="form-select mb-2"></select>
                     <div class="d-flex gap-2">
                         <button class="btn btn-secondary" id="recommend-button">추천받기</button>
                         <form id="message-form" class="d-flex gap-1 flex-grow-1">
@@ -79,12 +80,20 @@
 {{ roleplayingroom.language|json_script:"room-language" }}
 
 <script>
-function sayMessage(message, language) {
-    const lang = language.split("-")[0];  // en-US => en
-    const voiceUrl = `/voice/?message=${encodeURIComponent(message)}&lang=${lang}`;
-    const audio = new Audio();
-    audio.src = voiceUrl;
-    audio.play();
+function sayMessage(message) {
+    const voiceListSelect = document.querySelector("#voice-list")
+    const voiceName = voiceListSelect.options[voiceListSelect.selectedIndex].value;
+    const voice = window.speechSynthesis.getVoices().find(voice => voice.name === voiceName);
+    
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+
+    utterance.addEventListener("error", (e) => {
+        alert(`error : ${e.error}`);
+    });
+
+    window.speechSynthesis.speak(utterance);
 }
 
 function addMessage(message, isMe) {
@@ -99,7 +108,7 @@ function addMessage(message, isMe) {
     messageList.scrollTop = messageList.scrollHeight;
 
     messageElement.querySelector(".say").addEventListener("click", () => {
-      sayMessage(message, room_language);
+      sayMessage(message);
     });
 }
 
@@ -154,6 +163,20 @@ recommendButton.addEventListener("click", () => {
   recommendButton.disabled = true;
   ws.send(JSON.stringify({ type: "request-recommend-message" }));
 });
+
+window.speechSynthesis.onvoiceschanged = function() {
+    const voices = window.speechSynthesis.getVoices();
+    
+    voices.forEach(({ name, lang}) => {
+        if (lang.toLowerCase() === room_language.toLowerCase() ) {
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            option.selected = true;
+            document.querySelector("#voice-list").appendChild(option);
+        }
+    });
+};
 </script>
 
 {% endblock %}

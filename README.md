@@ -31,3 +31,13 @@
  - ASGI 기반의 라이브러리, HTTP/웹소켓 프로토콜을 Django 친화적으로 지원
  - 2022년 10월에 v4.0.0 release
  - 필요한 라이브러리 : channels[daphne]~=4.0.0
+
+ <br>
+
+ ## TTS Engine (문자열을 음성으로 읽어주는 기능 - Text to Speech)
+ - 운영체제/브라우저에서 음성합성 기능을 제공
+ - 운영체제/브라우저마다 지원하는 언어 별 목소리 종류가 다름
+ - Edge 브라우저에서의 목소리 지원이 Chrome등 다른 브라우저에 비해 다양한 편
+ - 브라우저 기본에서 speechSynthesis 음성 합성 API를 제공함: 아직 실험적 API이기 때문에 모든 브라우저에서 지원되는 것은 아님(2024년 1월 현재, chrome 및 Edge 브라우저에서의 동작만 확인)
+ - speechSynthesis.getVoices()호출하여 브라우저가 지원하는 목소리 목록을 얻을 수 있음
+
