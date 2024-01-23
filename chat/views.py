@@ -1,7 +1,11 @@
+from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
+
+from gtts import gTTS
+
 from django.utils.decorators import method_decorator
 from .models import RolePlayingRoom
 from .forms import RolePlayingRoomForm
@@ -75,3 +79,18 @@ class RolePlayingRoomDeleteView(DeleteView):
         return response
     
 role_playing_room_delete = RolePlayingRoomDeleteView.as_view()
+
+
+@staff_member_required
+def make_voice(request: HttpRequest) -> HttpResponse:
+    lang = request.GET.get("lang", "en")
+
+    message = request.GET.get("message")
+
+    response = HttpResponse()
+
+    gTTS(message, lang=lang).write_to_fp(response)
+
+    response["content-Type"] = "audio/mpeg"
+
+    return response
