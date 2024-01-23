@@ -48,11 +48,11 @@
                     <ul id="chat-message-list"></ul>
                 </div>
                 <div class="card-footer">
-                    <!-- <div class="d-grid gap-2 mb-2">
+                    <div class="d-grid gap-2 mb-2">
                         <button id="auto-play-button" class="btn btn-primary">
                             자동 읽기 시작
                         </button>
-                    </div> -->
+                    </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-secondary" id="recommend-button">추천받기</button>
                         <form id="message-form" class="d-flex gap-1 flex-grow-1">
@@ -80,8 +80,8 @@
 
 <script>
 function sayMessage(message, language) {
-    const lang = language.split("-")[0];
-    const voiceUrl = `/voice/?message=${encodeURIComponent(message)}&lang=${encodeURIComponent(lang)}`;
+    const lang = language.split("-")[0];  // en-US => en
+    const voiceUrl = `/voice/?message=${encodeURIComponent(message)}&lang=${lang}`;
     const audio = new Audio();
     audio.src = voiceUrl;
     audio.play();
@@ -155,25 +155,11 @@ recommendButton.addEventListener("click", () => {
   ws.send(JSON.stringify({ type: "request-recommend-message" }));
 });
 
-// window.speechSynthesis.onvoiceschanged = function() {
-//     const voices = window.speechSynthesis.getVoices();
-    
-//     voices.forEach(({ name, lang}) => {
-//         if (lang.toLowerCase() === room_language.toLowerCase() ) {
-//             const option = document.createElement("option");
-//             option.value = name;
-//             option.textContent = name;
-//             option.selected = true;
-//             document.querySelector("#voice-list").appendChild(option);
-//         }
-//     });
-// };
-
-// const autoPlayButton = document.querySelector("auto-play-button");
-// autoPlayButton.addEventListener("click", () => {
-//     is_auto_play = true;
-//     autoPlayButton.remove();
-// })
+const autoPlayButton = document.querySelector("#auto-play-button");
+autoPlayButton.addEventListener("click", () => {
+  is_auto_play = true;
+  autoPlayButton.remove();
+});
 </script>
 
 {% endblock %}
